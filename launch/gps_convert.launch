@@ -1,0 +1,12 @@
+<launch>
+
+  <arg name="params_file" default="$(find passport)/params/sim_params.yaml"/>
+  
+  <node name="gps_class" pkg="passport" type="gps_class" output="screen">  
+    <rosparam file="$(arg params_file)" command="load"/>  
+    <remap from="/gps_in" to="/firefly/ground_truth/gps"/>    
+    <remap from="/local_pose" to="/local_odom"/>        
+  </node>
+
+
+</launch>

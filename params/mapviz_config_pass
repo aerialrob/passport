@@ -1,0 +1,65 @@
+capture_directory: ~
+fixed_frame: world
+target_frame: firefly/base_link
+fix_orientation: false
+rotate_90: false
+enable_antialiasing: true
+show_displays: true
+show_status_bar: true
+show_capture_tools: true
+window_width: 1853
+window_height: 1025
+view_scale: 0.04736254
+offset_x: 0
+offset_y: 0
+use_latest_transforms: true
+background: "#a0a0a4"
+displays:
+  - type: mapviz_plugins/tile_map
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      custom_sources:
+        - base_url: http://tile.stamen.com/terrain/{level}/{x}/{y}.png
+          max_zoom: 19
+          name: map_g
+          type: wmts
+      bing_api_key: ""
+      source: map_g
+  - type: mapviz_plugins/odometry
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      topic: /firefly/ground_truth/odometry
+      color: "#204a87"
+      draw_style: lines
+      position_tolerance: 0
+      buffer_size: 0
+      show_laps: false
+      show_covariance: false
+      show_all_covariances: false
+      static_arrow_sizes: false
+      arrow_size: 191
+      show_timestamps: 0
+  - type: mapviz_plugins/navsat
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      topic: /firefly/ground_truth/gps
+      color: "#75507b"
+      draw_style: lines
+      position_tolerance: 0
+      buffer_size: 0
+  - type: mapviz_plugins/attitude_indicator
+    name: new display
+    config:
+      visible: true
+      collapsed: false
+      topic: /firefly/ground_truth/imu
+      x: 0
+      y: 0
+      width: 100
+      height: 100

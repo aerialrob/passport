@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>passport</name>
+  <version>0.0.0</version>
+  <description>TODO</description>
+
+  <maintainer email="arosinol@mit.edu">Antoni Rosinol</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>tf</build_depend>
+
+</package>

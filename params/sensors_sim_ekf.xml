@@ -1,0 +1,845 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="2.3.8">
+ <tabbed_widget name="Main Window" parent="main_window">
+  <Tab containers="1" tab_name="mag">
+   <Container>
+    <DockSplitter count="3" orientation="-" sizes="0.332961;0.334078;0.332961">
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-0.000023" left="1643276383.008471" top="0.000023"/>
+       <limitY/>
+       <curve color="#d62728" name="/sensors/magnetometer/magnetic_field/x"/>
+       <curve color="#1ac938" name="/firefly/ground_truth/magnetic_field_enu/magnetic_field/x"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-0.000023" left="1643276383.008471" top="0.000023"/>
+       <limitY/>
+       <curve color="#d62728" name="/sensors/magnetometer/magnetic_field/y"/>
+       <curve color="#1ac938" name="/firefly/ground_truth/magnetic_field_enu/magnetic_field/y"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-0.000043" left="1643276383.008471" top="-0.000042"/>
+       <limitY/>
+       <curve color="#d62728" name="/sensors/magnetometer/magnetic_field/z"/>
+       <curve color="#1ac938" name="/firefly/ground_truth/magnetic_field_enu/magnetic_field/z"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="gps">
+   <Container>
+    <DockSplitter count="1" orientation="-" sizes="1">
+     <DockArea name="...">
+      <plot style="Lines" mode="XYPlot">
+       <range right="8.550000" bottom="47.366699" left="8.550000" top="47.366699"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/gps/l[atitude;ongitude]" curve_y="/firefly/ground_truth/gps/latitude" curve_x="/firefly/ground_truth/gps/longitude"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="lat_lon">
+   <Container>
+    <DockSplitter count="2" orientation="-" sizes="0.5;0.5">
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="8.549800" left="1643276383.008471" top="8.550206"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/gps/longitude"/>
+       <curve color="#d62728" name="/sensors/gps/longitude"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="47.366541" left="1643276383.008471" top="47.366855"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/gps/latitude"/>
+       <curve color="#d62728" name="/sensors/gps/latitude"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="xyz">
+   <Container>
+    <DockSplitter count="3" orientation="-" sizes="0.332961;0.334078;0.332961">
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-1.348260" left="1643276383.008471" top="0.970218"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/odometry/pose/position/x"/>
+       <curve color="#d62728" name="/sensors/odometry/pose/position/x"/>
+       <curve color="#17becf" name="/eskf/odom_out/pose/position/x"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-0.800688" left="1643276383.008471" top="1.791705"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/odometry/pose/position/y"/>
+       <curve color="#d62728" name="/sensors/odometry/pose/position/y"/>
+       <curve color="#17becf" name="/eskf/odom_out/pose/position/y"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="0.124088" left="1643276383.008471" top="4.470297"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/odometry/pose/position/z"/>
+       <curve color="#d62728" name="/sensors/odometry/pose/position/z"/>
+       <curve color="#17becf" name="/eskf/odom_out/pose/position/z"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="rpy_degrees">
+   <Container>
+    <DockSplitter count="3" orientation="-" sizes="0.332961;0.334078;0.332961">
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-55.231652" left="1643276383.008471" top="18.941684"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/orientation/vector/x"/>
+       <curve color="#17becf" name="/eskf/orientation/vector/x"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-44.551971" left="1643276383.008471" top="30.607755"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/orientation/vector/y"/>
+       <curve color="#17becf" name="/eskf/orientation/vector/y"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-188.972737" left="1643276383.008471" top="188.994704"/>
+       <limitY/>
+       <curve color="#d62728" name="yaw_from_mag_enu"/>
+       <curve color="#17becf" name="/eskf/orientation/vector/z"/>
+       <curve color="#1ac938" name="/firefly/ground_truth/orientation/vector/z"/>
+       <curve color="#f14cc1" name="yaw_from_sensorn_mag_noise"/>
+       <curve color="#cf6417" name="yaw_from_mag_ned"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="acc">
+   <Container>
+    <DockSplitter count="3" orientation="-" sizes="0.332961;0.334078;0.332961">
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-14.822742" left="1643276383.008471" top="5.799384"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/imu/linear_acceleration/x"/>
+       <curve color="#17becf" name="/eskf/xstate_out/ab/x"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-7.772848" left="1643276383.008471" top="37.316952"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/imu/linear_acceleration/y"/>
+       <curve color="#17becf" name="/eskf/xstate_out/ab/y"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-0.990468" left="1643276383.008471" top="39.775844"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/imu/linear_acceleration/z"/>
+       <curve color="#9467bd" name="/eskf/xstate_out/g/z"/>
+       <curve color="#17becf" name="/eskf/xstate_out/ab/z"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <Tab containers="1" tab_name="ang">
+   <Container>
+    <DockSplitter count="3" orientation="-" sizes="0.332961;0.334078;0.332961">
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-8.874906" left="1643276383.008471" top="1.158072"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/imu/angular_velocity/x"/>
+       <curve color="#17becf" name="/eskf/xstate_out/wb/x"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-1.701853" left="1643276383.008471" top="38.825709"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/imu/angular_velocity/y"/>
+       <curve color="#17becf" name="/eskf/xstate_out/wb/y"/>
+      </plot>
+     </DockArea>
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range right="1643276482.022263" bottom="-78.494633" left="1643276383.008471" top="3.761745"/>
+       <limitY/>
+       <curve color="#1ac938" name="/firefly/ground_truth/imu/angular_velocity/z"/>
+       <curve color="#17becf" name="/eskf/xstate_out/wb/z"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <currentTabIndex index="4"/>
+ </tabbed_widget>
+ <use_relative_time_offset enabled="0"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <!-- - - - - - - - - - - - - - - -->
+ <Plugins>
+  <plugin ID="DataLoad CSV">
+   <default time_axis=""/>
+  </plugin>
+  <plugin ID="DataLoad ROS bags">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+  </plugin>
+  <plugin ID="DataLoad ULog"/>
+  <plugin ID="LSL Subscriber"/>
+  <plugin ID="MQTT Subscriber"/>
+  <plugin ID="ROS Topic Subscriber">
+   <use_header_stamp value="false"/>
+   <use_renaming_rules value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+  </plugin>
+  <plugin ID="UDP Server"/>
+  <plugin ID="WebSocket Server"/>
+  <plugin ID="ZMQ Subscriber"/>
+  <plugin ID="ROS /rosout Visualization" status="idle"/>
+  <plugin ID="ROS Topic Re-Publisher" status="idle"/>
+ </Plugins>
+ <!-- - - - - - - - - - - - - - - -->
+ <previouslyLoaded_Datafiles/>
+ <previouslyLoaded_Streamer name="ROS Topic Subscriber"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <customMathEquations>
+  <snippet name="yaw_from_mag_ned">
+   <global></global>
+   <function>return math.atan( v1, value)*180/3.1416</function>
+   <linkedSource>/firefly/ground_truth/magnetic_field/magnetic_field/x</linkedSource>
+   <additionalSources>
+    <v1>/firefly/ground_truth/magnetic_field/magnetic_field/y</v1>
+   </additionalSources>
+  </snippet>
+  <snippet name="yaw_from_mag_enu">
+   <global></global>
+   <function>return math.atan( v1, value)*180/3.1416</function>
+   <linkedSource>/firefly/ground_truth/magnetic_field_enu/magnetic_field/x</linkedSource>
+   <additionalSources>
+    <v1>/firefly/ground_truth/magnetic_field_enu/magnetic_field/y</v1>
+   </additionalSources>
+  </snippet>
+  <snippet name="yaw_from_sensorn_mag_noise">
+   <global></global>
+   <function>return math.atan( v1, value)*180/3.1416</function>
+   <linkedSource>/sensors/magnetometer/magnetic_field/x</linkedSource>
+   <additionalSources>
+    <v1>/sensors/magnetometer/magnetic_field/y</v1>
+   </additionalSources>
+  </snippet>
+ </customMathEquations>
+ <snippets>
+  <snippet name="1order_lowpass">
+   <global>var prevY = 0
+var alpha = 0.5</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="1order_lowpass__">
+   <global>var prevY = 0
+var alpha = 2</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="1st_derivative">
+   <global>var prevX = 0
+var prevY = 0</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="1st_order_lowpass">
+   <global>var prevY = 0
+var alpha = 0.1</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="&lt;zx&lt;z">
+   <global>var prevY = 1
+var alpha = 0.1</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="dji_yaw">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_hedge_yaw">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_pitch_mm">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_x_hedgehog">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_x_mov_beacon">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_y_hedgehog">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_y_mov_beacon">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_yaw">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="offset_z">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="ofset_pitch_mmmm">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="ofset_tags_z">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="pitch">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToPitch(x, y, z, w)
+{
+  // pitch 
+  t1 = 2.0 * (w * y - z * x);
+  pitch = Math.asin(t1);
+
+  return pitch
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="pitch_command">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToPitch(x, y, z, w)
+{
+  // pitch 
+  t1 = 2.0 * (w * y - z * x);
+  pitch = Math.asin(t1);
+
+  return pitch
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="pitch_dji">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToPitch(x, y, z, w)
+{
+  // pitch 
+  t1 = 2.0 * (w * y - z * x);
+  pitch = Math.asin(t1);
+
+  return pitch
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="pitch_from_q">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToPitch(x, y, z, w)
+{
+  // pitch 
+  t1 = 2.0 * (w * y - z * x);
+  pitch = Math.asin(t1);
+
+  return pitch
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="pitch_m">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToPitch(x, y, z, w)
+{
+  // pitch 
+  t1 = 2.0 * (w * y - z * x);
+  pitch = Math.asin(t1);
+
+  return pitch
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="pitch_map">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToPitch(x, y, z, w)
+{
+  // pitch 
+  t1 = 2.0 * (w * y - z * x);
+  pitch = Math.asin(t1);
+
+  return pitch
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="pitch_setpoint">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToPitch(x, y, z, w)
+{
+  // pitch 
+  t1 = 2.0 * (w * y - z * x);
+  pitch = Math.asin(t1);
+
+  return pitch
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rc_pitch">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rc_roll">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rc_yawrate">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="realsense_x">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToRoll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + y * z);
+  t2 = 1 - 2 * (x * x + y * y);
+  roll = Math.atan2(t1,t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_command">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToRoll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + y * z);
+  t2 = 1 - 2 * (x * x + y * y);
+  roll = Math.atan2(t1,t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_dji">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToRoll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + y * z);
+  t2 = 1 - 2 * (x * x + y * y);
+  roll = Math.atan2(t1,t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_ekf">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToroll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + z * y);
+  t2 = 1.0 - 2.0 * (y * y + y * y);
+  roll = Math.atan2(t1, t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_from_odometry">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToroll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + z * y);
+  t2 = 1.0 - 2.0 * (x * x + y * y);
+  roll = Math.atan2(t1, t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_from_q">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToroll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + z * y);
+  t2 = 1.0 - 2.0 * (y * y + y * y);
+  roll = Math.atan2(t1, t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_realsense">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToroll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + z * y);
+  t2 = 1.0 - 2.0 * (x * x + y * y);
+  roll = Math.atan2(t1, t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_setpoint">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToRoll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + y * z);
+  t2 = 1 - 2 * (x * x + y * y);
+  roll = Math.atan2(t1,t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="roll_t265">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rool_realsense">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToroll(x, y, z, w)
+{
+  // roll 
+  t1 = 2.0 * (w * x + z * y);
+  t2 = 1.0 - 2.0 * (x * x + y * y);
+  roll = Math.atan2(t1, t2);
+
+  return roll
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rs_vy_offset">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rs_x">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="rs_y">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="sum_A_B">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="tag_to_mm_x">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="tag_to_mm_y">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="tag_y_to_mm">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="tag_z_to_mm">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="terra">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="terraranger">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="timeout">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="to_degrees">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="vel">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="vel_setpoint">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="vel_z">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="vel_z_rc">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="x_mm_to_gt">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="x_to_otrack">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="y_mm_to_gt">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="y_to_otrack">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+
+x = $$/vrpn_client_node/base_link/pose/pose/orientation/x$$
+z = $$/vrpn_client_node/base_link/pose/pose/orientation/z$$
+y = $$/vrpn_client_node/base_link/pose/pose/orientation/y$$
+w = $$/vrpn_client_node/base_link/pose/pose/orientation/w$$
+
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_command">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_deg_command">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_dji">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_from_quaternion">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_mavros">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_rs">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="yaw_vision">
+   <global>// source: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+
+function quaternionToYaw(x, y, z, w)
+{
+  // yaw (z-axis rotation)
+  t1 = 2.0 * (w * z + x * y);
+  t2 = 1.0 - 2.0 * (y * y + z * z);
+  yaw = Math.atan2(t1, t2);
+
+  return yaw
+}</global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+  <snippet name="z_to_otrack">
+   <global></global>
+   <function></function>
+   <linkedSource></linkedSource>
+  </snippet>
+ </snippets>
+ <!-- - - - - - - - - - - - - - - -->
+</root>
+

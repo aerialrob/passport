@@ -1,0 +1,12 @@
+<launch>
+
+
+    <node name="plotjuggler_with_layout" 
+          pkg="plotjuggler"
+          type="PlotJuggler"
+          args="--layout $(find passport)/params/sensors_sim_ekf.xml"
+    />
+
+
+
+</launch>
