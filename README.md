@@ -22,11 +22,6 @@ echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc
 # Clone repo
 cd ~/catkin_ws/src
 git clone https://github.com/aerialrob/passport.git
-
-# Install dependencies from rosinstall file using wstool
-wstool init
-wstool merge passport/install/passport.rosinstall
-wstool update
 ```
 
 Finally, compile:
@@ -39,23 +34,51 @@ catkin build
 source ~/.bashrc
 ```
 
+
+
+Check the ESKF resources to Install the required packages in the same workspace
+
+https://github.com/aerialrob/eskf_odometry#readme
+
 # 2. Usage
 
-## rosrun
-
-Cpp:
-```bash
-rosrun passport passport
-```
-
-Python:
-```bash
-rosrun passport passport_script
-```
-
 ## roslaunch
+
+The launch includes sensor topics from bag file both ground truth and noisy measurements
+
 ```bash
-roslaunch passport passport
+roslaunch passport sensors_sim.launch
 ```
 
-## rosservice
+GPS converter to local odometry
+
+```
+roslaunch passport gps_convert.launch
+```
+
+Launch Plotjuggler Layout 
+
+```
+roslaunch passport plot_launch.launch
+```
+
+## Params
+
+Params can be changed from `params/sim_params.yaml`
+
+## ESKF
+
+Check the repo https://github.com/aerialrob/eskf_odometry.git to launch the bag player in the **bag** folder
+
+```
+roslaunch eskf_odometry_ros play_bag.launch
+```
+
+Launch the eskf node 
+
+```
+roslaunch eskf_odometry_ros eskf_odometry_ros.launch
+```
+
+## 
+
