@@ -22,6 +22,11 @@ echo 'source ~/catkin_ws/devel/setup.bash' >> ~/.bashrc
 # Clone repo
 cd ~/catkin_ws/src
 git clone https://github.com/aerialrob/passport.git
+
+# Install dependencies from rosinstall file using wstool
+wstool init
+wstool merge passport/install/passport.rosinstall
+wstool update
 ```
 
 Finally, compile:
@@ -80,5 +85,5 @@ Launch the eskf node
 roslaunch eskf_odometry_ros eskf_odometry_ros.launch
 ```
 
-## 
+
 

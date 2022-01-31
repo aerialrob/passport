@@ -6,7 +6,7 @@ find_package(catkin_simple REQUIRED roscpp rospy tf)
 find_package(Eigen3 REQUIRED)
 
 ## GeographicLib
-find_package(GeographicLib 1.34 REQUIRED)
+find_package(GeographicLib REQUIRED)
 
 add_definitions (${GeographicLib_DEFINITIONS})
 include_directories(
@@ -18,11 +18,7 @@ catkin_python_setup()
 
 catkin_simple()
 
-cs_add_executable(${PROJECT_NAME}
-  src/${PROJECT_NAME}.cpp)
-
 cs_add_executable(sensors_sim src/sensors_sim.cpp)  
-cs_add_executable(imu_quat_to_deg src/imu_quat_to_deg.cpp)  
 cs_add_executable(gps_class src/gps_class.cpp)  
 
 target_link_libraries(sensors_sim ${GeographicLib_LIBRARIES})

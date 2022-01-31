@@ -12,8 +12,7 @@ sensors_class::sensors_class(ros::NodeHandle* nodehandle):nh_(*nodehandle)
 { // constructor
     ROS_INFO("in class constructor of sensors_class");
     initializeSubscribers(); // package up the messy work of creating subscribers; do this overhead in constructor
-    initializePublishers();
-    initializeServices();
+    initializePublishers();    
 
     // Init params
     ros::NodeHandle nh_private_("~"); // Private nodehandle for handling parameters        
@@ -45,34 +44,31 @@ sensors_class::sensors_class(ros::NodeHandle* nodehandle):nh_(*nodehandle)
     dummyParam = read_vec("gps/frequency", 1, nh_private_);
     gps_freq = dummyParam[0];  
     dummyParam = read_vec("gps/origin", 3, nh_private_);
-    gps_origin.x = dummyParam[0];
-    gps_origin.y = dummyParam[1];
-    gps_origin.z = dummyParam[2];
-    dummyParam = read_vec("gps/mean_normal_position", 3, nh_private_);
-    gps_position_mean.x = dummyParam[0];
-    gps_position_mean.y = dummyParam[1];
-    gps_position_mean.z = dummyParam[2]; 
+    params_lat0 = dummyParam[0];
+    params_lon0 = dummyParam[1];
+    params_h0 = dummyParam[2];    
     dummyParam = read_vec("gps/std_position", 3, nh_private_);
     gps_position_std.x = dummyParam[0];
     gps_position_std.y = dummyParam[1];
     gps_position_std.z = dummyParam[2]; 
+    dummyParam = read_vec("gps/mean_normal_position", 3, nh_private_);
+    gps_position_mean.x = dummyParam[0];
+    gps_position_mean.y = dummyParam[1];
+    gps_position_mean.z = dummyParam[2]; 
 
-    Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());
-    // Alternatively: const Geocentric& earth = Geocentric::WGS84();
-    const double lat0 = gps_origin.x, lon0 = gps_origin.y , h0 = gps_origin.z; 
-    // LocalCartesian proj(lat0, lon0, h0, earth);
-    // Sample forward calculation    
-    // earth.Forward(lat0, lon0, h0, x_local0, y_local0, z_local0);
-    proj_local = GeographicLib::LocalCartesian(lat0, lon0, h0);    
-    ROS_INFO("latitude [%f] longitude [%f] altitude [%f]", lat0, lon0, h0);
-    // ROS_INFO("x [%f] y [%f] z [%f]", x_local0, y_local0, z_local0); 
-    // std::cout << floor(x_local0 / 1000 + 0.5) << " "
-    //        << floor(y_local0 / 1000 + 0.5) << " "
-    //        << floor(z_local0 / 1000 + 0.5) << "\n";   
+    nh_private_.param<std::string>("gps/frame_id",gps_frame_id_,"");
+    nh_private_.param<std::string>("magnetometer/frame_id",mag_frame_id_,"");
+    nh_private_.param<std::string>("odometry/frame_id",odom_frame_id_,"");
+    nh_private_.param<std::string>("odometry/child_frame_id",odom_child_frame_id_,"");
 
-    //initialize variables here, as needed
-    val_to_remember_=0.0; 
-        
+    // Initialize variables here, as needed
+    // Local cartesian origin
+    Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());        
+    // Sample forward calculation        
+    proj_local = GeographicLib::LocalCartesian(params_lat0, params_lon0, params_h0);    
+    ROS_INFO("latitude_0 [%f] longitude_0 [%f] altitude_0 [%f]", params_lat0, params_lon0, params_h0);   
+            
+    // Initialize threads            
     magnetometer_thread_ = std::thread(&sensors_class::ThreadFunc_magmetometer, this);
     position_thread_ = std::thread(&sensors_class::ThreadFunc_odometry, this);
     gps_thread_ = std::thread(&sensors_class::ThreadFunc_gps, this);
@@ -84,36 +80,23 @@ sensors_class::sensors_class(ros::NodeHandle* nodehandle):nh_(*nodehandle)
 void sensors_class::initializeSubscribers()
 {
     ROS_INFO("Initializing Subscribers");    
-    odom_subscriber_ = nh_.subscribe("odom_in", 1, &sensors_class::odom_callback, this);
-    magnetometer_subscriber_ = nh_.subscribe("magnetometer", 1, &sensors_class::magnetometer_callback, this);
+    odom_subscriber_ = nh_.subscribe("odom_in", 1, &sensors_class::odom_callback, this);    
     // add more subscribers here, as needed
-}
-
-//member helper function to set up services:
-// similar syntax to subscriber, required for setting up services outside of "main()"
-void sensors_class::initializeServices()
-{
-    ROS_INFO("Initializing Services");
-    // minimal_service_ = nh_.advertiseService("exampleMinimalService",
-    //                                                &sensors_class::serviceCallback,
-    //                                                this);  
-    // add more services here, as needed
 }
 
 //member helper function to set up publishers;
 void sensors_class::initializePublishers()
 {
-    ROS_INFO("Initializing Publishers");    
-    magnetic_publisher_ = nh_.advertise<sensor_msgs::MagneticField>("sensors/magnetometer", 1, true); 
-    magnetic_from_q_publisher_ = nh_.advertise<sensor_msgs::MagneticField>("/firefly/ground_truth/magnetic_field_enu", 1, true); 
+    ROS_INFO("Initializing Publishers");            
     odom_publisher_ = nh_.advertise<nav_msgs::Odometry>("sensors/odometry", 1, true); 
     gps_publisher_ = nh_.advertise<sensor_msgs::NavSatFix>("sensors/gps", 1, true);
-    gps_gt_publisher_ = nh_.advertise<sensor_msgs::NavSatFix>("/firefly/ground_truth/gps", 1, true);
-    rpy_publisher_ = nh_.advertise<geometry_msgs::Vector3Stamped>("/firefly/ground_truth/orientation", 1, true);
-    //add more publishers, as needed
-    // note: COULD make minimal_publisher_ a public member function, if want to use it within "main()"
+    magnetic_publisher_ = nh_.advertise<sensor_msgs::MagneticField>("sensors/magnetic_field", 1, true); 
+    gps_gt_publisher_ = nh_.advertise<sensor_msgs::NavSatFix>("/ground_truth/gps", 1, true);
+    rpy_publisher_ = nh_.advertise<geometry_msgs::Vector3Stamped>("/ground_truth/orientation", 1, true);
+    magnetic_gt_publisher_ = nh_.advertise<sensor_msgs::MagneticField>("/ground_truth/magnetic_field_enu", 1, true); 
 }
 
+// Read vector from yaml
 std::vector<float> sensors_class::read_vec(const std::string& param_name, const int& exp_long, ros::NodeHandle &nh_private_)
 {
     std::vector<double> params(exp_long);    
@@ -122,9 +105,7 @@ std::vector<float> sensors_class::read_vec(const std::string& param_name, const 
     nh_private_.getParam(param_name, my_list);
 
     if (!nh_private_.hasParam(param_name))    
-        std::cout << "ERROR loading " << param_name << ": Not declared" << std::endl;
-    else
-        ROS_INFO_STREAM("Loaded from parameter server  " << param_name);
+        ROS_ERROR_STREAM("ERROR loading " << param_name << ": Not declared");  
 
     if (my_list.getType() == XmlRpc::XmlRpcValue::TypeArray)
     {
@@ -134,15 +115,14 @@ std::vector<float> sensors_class::read_vec(const std::string& param_name, const 
             for (int ii = 0; ii < vec_size; ii++)
             {
                 params[ii] = my_list[ii];     
-                std::cout << params[ii] << std::endl;
-            }
-                         
+                // std::cout << params[ii] << std::endl;
+            }                         
         }
         else
-            std::cout << "ERROR loading " << param_name << ": Wrong elements number" << std::endl;
+            ROS_ERROR_STREAM("ERROR loading " << param_name << ": Wrong elements number");            
     }
     else
-        std::cout << "ERROR loading " << param_name << ": Wrong element type" << std::endl;
+        ROS_ERROR_STREAM("ERROR loading " << param_name << ": Wrong element type");                 
     
     std::vector<float> paramsf(params.begin(), params.end());
     return paramsf;
@@ -153,12 +133,15 @@ void sensors_class::ThreadFunc_odometry(void)
     ros::Rate rate(odometry_freq);
     ROS_WARN("On Pos Thread");    
     Geocentric earth(Constants::WGS84_a(), Constants::WGS84_f());
+    int seq = 0;
     while(ros::ok())
     {
         if (isfirst_odom)
         {
-            // Get msg from callback and add Define random generator with Gaussian distribution  
-            nav_msgs::Odometry odom_noise_msg = odom_msg;      
+            // Get msg from callback and add random generator with Gaussian distribution  
+            nav_msgs::Odometry odom_noise_msg = odom_msg;    
+            odom_noise_msg.header.frame_id = odom_frame_id_;    
+            odom_noise_msg.child_frame_id = odom_child_frame_id_;    
             std::normal_distribution<double> dist_x(position_mean.x, position_std.x);
             std::normal_distribution<double> dist_y(position_mean.y, position_std.y);
             std::normal_distribution<double> dist_z(position_mean.z, position_std.z);
@@ -182,13 +165,12 @@ void sensors_class::ThreadFunc_odometry(void)
             tf::Quaternion q;
             q.setRPY(0, 0, 0);
             transform.setRotation(q);
-            br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "odom_sim"));
+            br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), odom_frame_id_, odom_child_frame_id_));
 
-            geometry_msgs::Vector3Stamped _orient_rpy;            
-
-            // Get message
+            // Create orientation msg 
+            geometry_msgs::Vector3Stamped _orient_rpy;                        
             _orient_rpy.header = odom_msg.header;
-
+            _orient_rpy.header.frame_id = odom_frame_id_;            
             tf::Quaternion quat;
             double roll, pitch, yaw;
             tf::quaternionMsgToTF(odom_msg.pose.pose.orientation, quat);
@@ -196,10 +178,9 @@ void sensors_class::ThreadFunc_odometry(void)
             _orient_rpy.vector.x = roll * 180/M_PI;
             _orient_rpy.vector.y = pitch * 180/M_PI;
             _orient_rpy.vector.z = yaw * 180/M_PI;
-
             // Publish rpy message
-            rpy_publisher_.publish(_orient_rpy);
-                   
+            rpy_publisher_.publish(_orient_rpy);         
+
         }
         ros::spinOnce();
         rate.sleep();
@@ -212,9 +193,9 @@ void sensors_class::ThreadFunc_magmetometer(void)
     ROS_WARN("On Mag Thread");
     while (ros::ok()) 
     {
-        if (isfirst_mag)
+        if (isfirst_odom)
         {            
-            // Get msg from callback and add Define random generator with Gaussian distribution            
+            // Get msg from callback and add random generator with Gaussian distribution            
             std::normal_distribution<double> dist_x(magnetometer_mean.x, magnetometer_std.x);
             std::normal_distribution<double> dist_y(magnetometer_mean.y, magnetometer_std.y);
             std::normal_distribution<double> dist_z(magnetometer_mean.z, magnetometer_std.z);
@@ -228,24 +209,27 @@ void sensors_class::ThreadFunc_magmetometer(void)
             Eigen::Quaternionf qt{odom_msg.pose.pose.orientation.w, odom_msg.pose.pose.orientation.x, odom_msg.pose.pose.orientation.y, odom_msg.pose.pose.orientation.z};
             Eigen::Matrix3f R_temp;
             R_temp = qt.matrix();
-
             Eigen::Vector3f magnetic_field_vector{magnetometer_vector.x, magnetometer_vector.y, magnetometer_vector.z};        
             // Magnetic field msg 
             Eigen::Vector3f magnetic_field_msg;    
             magnetic_field_msg = R_temp.transpose() * magnetic_field_vector; 
             
-            sensor_msgs::MagneticField mag_msg_from_q = mag_msg;
+            sensor_msgs::MagneticField mag_msg_from_q;            
             mag_msg_from_q.header = odom_msg.header;
+            mag_msg_from_q.header.frame_id = mag_frame_id_;
             mag_msg_from_q.magnetic_field.x = magnetic_field_msg[0];
             mag_msg_from_q.magnetic_field.y = magnetic_field_msg[1];
             mag_msg_from_q.magnetic_field.z = magnetic_field_msg[2];
             mag_msg_from_q.magnetic_field_covariance[0] = 0.0;
             mag_msg_from_q.magnetic_field_covariance[4] = 0.0;
             mag_msg_from_q.magnetic_field_covariance[8] = 0.0;
-            // Publisher
-            magnetic_from_q_publisher_.publish(mag_msg_from_q);  
+            // Publisher gt
+            magnetic_gt_publisher_.publish(mag_msg_from_q);  
 
-            sensor_msgs::MagneticField mag_noise_msg = mag_msg;
+            // Add noise
+            sensor_msgs::MagneticField mag_noise_msg;
+            mag_noise_msg.header = odom_msg.header;
+            mag_noise_msg.header.frame_id = mag_frame_id_;
             mag_noise_msg.magnetic_field.x = mag_msg_from_q.magnetic_field.x + magnetometer_noise.x;
             mag_noise_msg.magnetic_field.y = mag_msg_from_q.magnetic_field.y + magnetometer_noise.y;
             mag_noise_msg.magnetic_field.z = mag_msg_from_q.magnetic_field.z + magnetometer_noise.z;
@@ -273,7 +257,7 @@ void sensors_class::ThreadFunc_gps(void)
     {
         if (isfirst_odom)
         {            
-            // Get msg from callback and add Define random generator with Gaussian distribution  
+            // Get msg from callback and add random generator with Gaussian distribution  
             nav_msgs::Odometry odom_noise_msg = odom_msg;      
             std::normal_distribution<double> dist_x(gps_position_mean.x, gps_position_std.x);
             std::normal_distribution<double> dist_y(gps_position_mean.y, gps_position_std.y);
@@ -286,9 +270,6 @@ void sensors_class::ThreadFunc_gps(void)
             odom_noise_msg.pose.pose.position.x = odom_msg.pose.pose.position.x + position_noise.x;
             odom_noise_msg.pose.pose.position.y = odom_msg.pose.pose.position.y + position_noise.y;
             odom_noise_msg.pose.pose.position.z = odom_msg.pose.pose.position.z + position_noise.z;
-            odom_noise_msg.pose.covariance[0] = gps_position_std.x * gps_position_std.x;
-            odom_noise_msg.pose.covariance[4] = gps_position_std.y * gps_position_std.y;
-            odom_noise_msg.pose.covariance[8] = gps_position_std.z * gps_position_std.z;
 
             // -----------GPS Reverse calculation-------------------                   
             // * @param[in] X geocentric coordinate (meters).
@@ -298,25 +279,32 @@ void sensors_class::ThreadFunc_gps(void)
             // * @param[out] lon longitude of point (degrees).
             // * @param[out] h height of point above the ellipsoid (meters).            
             // msg GT
+            gps_gt_msg.header = odom_msg.header;
+            gps_gt_msg.header.frame_id = gps_frame_id_;
             x_local = odom_msg.pose.pose.position.x;
             y_local = odom_msg.pose.pose.position.y;
             z_local = odom_msg.pose.pose.position.z;
             proj_local.Reverse(x_local, y_local, z_local, lat, lon, h);            
             gps_gt_msg.latitude = lat;  
             gps_gt_msg.longitude = lon;
-            gps_gt_msg.altitude = h;
-            gps_gt_msg.header = odom_msg.header;
+            gps_gt_msg.altitude = h;            
+            gps_gt_msg.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_KNOWN;
             gps_gt_publisher_.publish(gps_gt_msg);
 
-            // msg GT + noise              
+            // msg GT + noise             
+            gps_msg.header = odom_msg.header; 
+            gps_msg.header.frame_id = gps_frame_id_;
             x_local = odom_noise_msg.pose.pose.position.x;
             y_local = odom_noise_msg.pose.pose.position.y;
             z_local = odom_noise_msg.pose.pose.position.z;
             proj_local.Reverse(x_local, y_local, z_local, lat, lon, h);                                      
             gps_msg.latitude = lat;  
             gps_msg.longitude = lon;
-            gps_msg.altitude = h;
-            gps_msg.header = odom_msg.header;
+            gps_msg.altitude = h;   
+            gps_msg.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_KNOWN;
+            gps_msg.position_covariance[0] = gps_position_std.x * gps_position_std.x;
+            gps_msg.position_covariance[4] = gps_position_std.y * gps_position_std.y;
+            gps_msg.position_covariance[8] = gps_position_std.z * gps_position_std.z;
             gps_publisher_.publish(gps_msg);
         }        
         ros::spinOnce();
@@ -331,15 +319,6 @@ void sensors_class::odom_callback(const nav_msgs::Odometry::ConstPtr& msg) {
 
     ROS_INFO_ONCE("main: odom_callback");
     odom_msg = *msg;
-}
-
-void sensors_class::magnetometer_callback(const sensor_msgs::MagneticField::ConstPtr& msg) {
-
-    if (!isfirst_mag)
-        isfirst_mag = true;
-
-    ROS_INFO_ONCE("main: magnetometer_callback");
-    mag_msg = *msg;        
 }
 
 int main(int argc, char** argv) 

@@ -1,29 +1,24 @@
 odometry:
-  std_position: [0.2, 0.2, 0.2]
-  mean_normal_position: [0.0, 0.0, 0.0]     
-  frequency: [30.0]
+  std_position: [0.2, 0.2, 0.2]   #Standart deviation for Normal distribution
+  mean_normal_position: [0.0, 0.0, 0.0]     #Mean for Normal distribution
+  frequency: [30.0]  #Frecuency of topic publisher
+  frame_id: "world"
+  child_frame_id: "base_link" #Frame of reference of the odometry sensor relative to the vehicle
 
 magnetometer:  
-  std: [0.000000080, 0.000000080, 0.000000080]     
-  mean_normal: [0.0, 0.0, 0.0]
-  magnetic_vector: [0.000000815, 0.000021493, -0.000042795]  #ENU
-  frequency: [60.0] 
-#     ref_mag_north="0.000021493"
-#     ref_mag_east="0.000000815"
-#     ref_mag_down="0.000042795"
-
+  std: [0.000000080, 0.000000080, 0.000000080]     #Standart deviation for Normal distribution
+  mean_normal: [0.0, 0.0, 0.0]  #Mean for Normal distribution
+  magnetic_vector: [0.000000815, 0.000021493, -0.000042795]  #Magnetic field vector ENU
+  frequency: [60.0] #Frecuency of topic publisher
+  frame_id: "magnetic_link" #Frame of reference of the magnetic sensor relative to the vehicle
 #     ref_mag_east="0.000000815"
 #     ref_mag_north="0.000021493"
 #     ref_mag_up="-0.000042795"
 
-
 # ENU Geographiclib nT 1034.89 21520.4 -42980.7
-
 gps:
-  origin: [47.3667, 8.55, 500.080000003]
-  std_position: [5.0, 5.0, 5.0]
-  mean_normal_position: [0.0, 0.0, 0.0] 
+  origin: [47.3667, 8.55, 500.080000003]  #Coordinates of local origin
+  std_position: [5.0, 5.0, 5.0]   #Standart deviation for Normal distribution
+  mean_normal_position: [0.0, 0.0, 0.0]   #Mean for Normal distribution
   frequency: [5.0]
-# latitude: 47.3667
-# longitude: 8.55
-# altitude: 500.94178772
+  frame_id: "gps_antenna_link"  #Frame of reference reported by the satellite receiver relative to the vehicle

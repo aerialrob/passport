@@ -47,6 +47,7 @@ public:
     // may choose to define public methods or public variables, if desired
 private:
 
+    // Threads objects
     std::thread magnetometer_thread_;    
     std::thread position_thread_;
     std::thread gps_thread_;
@@ -54,20 +55,13 @@ private:
     // put private member data here;  "private" data will only be available to member functions of this class;
     ros::NodeHandle nh_; // we will need this, to pass between "main" and constructor
     // some objects to support subscriber, service, and publisher    
-    ros::Subscriber odom_subscriber_;
-    ros::Subscriber magnetometer_subscriber_;
-    ros::ServiceServer minimal_service_;    
+    ros::Subscriber odom_subscriber_;        
     ros::Publisher magnetic_publisher_;
-    ros::Publisher magnetic_from_q_publisher_;
+    ros::Publisher magnetic_gt_publisher_;
     ros::Publisher odom_publisher_;
     ros::Publisher gps_publisher_;
     ros::Publisher gps_gt_publisher_;
-    ros::Publisher rpy_publisher_;
-
-    
-    
-    double val_from_subscriber_; //example member variable: better than using globals; convenient way to pass data from a subscriber to other member functions
-    double val_to_remember_; // member variables will retain their values even as callbacks come and go
+    ros::Publisher rpy_publisher_;        
 
     bool isfirst_odom = false, isfirst_mag = false;
 
@@ -78,16 +72,16 @@ private:
     geometry_msgs::Point magnetometer_mean;
     geometry_msgs::Point magnetometer_vector;
     geometry_msgs::Point gps_origin;
+    double params_lat0, params_lon0, params_h0;     
     geometry_msgs::Point gps_position_mean;
     geometry_msgs::Point gps_position_std;
-    int magnetometer_freq, odometry_freq, gps_freq;   
-    
+    int magnetometer_freq, odometry_freq, gps_freq;  
+    std::string gps_frame_id_, mag_frame_id_, odom_child_frame_id_, odom_frame_id_;    
 
     GeographicLib::LocalCartesian proj_local;
     double x_local0, y_local0, z_local0;
 
-    // Msgs in callbacks
-    sensor_msgs::MagneticField mag_msg;
+    // Msgs in callbacks    
     nav_msgs::Odometry odom_msg;
 
     // rand generator
@@ -95,17 +89,14 @@ private:
     
     // member methods as well:
     void initializeSubscribers(); // we will define some helper methods to encapsulate the gory details of initializing subscribers, publishers and services
-    void initializePublishers();
-    void initializeServices();
-    void init_params(ros::NodeHandle &nh_private_);
+    void initializePublishers();        
 
     void ThreadFunc_magmetometer(void);
     void ThreadFunc_odometry(void);
     void ThreadFunc_gps(void);
     std::vector<float> read_vec(const std::string& param_name, const int& exp_long, ros::NodeHandle &nh_private_);
 
-    // Callbacks    
-    void magnetometer_callback(const sensor_msgs::MagneticField::ConstPtr& msg); 
+    // Callbacks        
     void odom_callback(const nav_msgs::Odometry::ConstPtr& msg);     
 
 }; // note: a class definition requires a semicolon at the end of the definition

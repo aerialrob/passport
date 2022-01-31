@@ -4,9 +4,8 @@
   <arg name="params_file" default="$(find passport)/params/sim_params.yaml"/>
   
   <node name="sensors_sim" pkg="passport" type="sensors_sim" output="screen">
-    <rosparam file="$(arg params_file)" command="load"/>
-    <remap from="/magnetometer" to="/firefly/ground_truth/magnetic_field"/>    
-    <remap from="/odom_in" to="/firefly/ground_truth/odometry"/>        
+    <rosparam file="$(arg params_file)" command="load"/>     
+    <remap from="/odom_in" to="/ground_truth/odometry"/>        
   </node>
 
 </launch>
